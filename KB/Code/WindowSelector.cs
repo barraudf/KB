@@ -41,14 +41,14 @@ namespace KB.Code
                 IntPtr childWindow = WindowFromPoint(pt);
                 WindowInfo CurWindow = new WindowInfo(GetAncestor(childWindow, GA_ROOT));
 
-                if(CurWindow != LastWindow)
+                if(CurWindow.Equals(LastWindow) == false)
                     OnWindowOver(new WindowSelect_EventArgs(CurWindow));
 
                 if (LastWindow == null)
                 {
                     ControlPaint.DrawReversibleFrame(CurWindow.Rect, WindowOutlineColor, WindowOutlineFrameStyle);
                 }
-                else if (CurWindow != LastWindow)
+                else if (CurWindow.Equals(LastWindow) == false)
                 {
                     ControlPaint.DrawReversibleFrame(LastWindow.Rect, WindowOutlineColor, WindowOutlineFrameStyle);
                     ControlPaint.DrawReversibleFrame(CurWindow.Rect, WindowOutlineColor, WindowOutlineFrameStyle);
@@ -72,6 +72,7 @@ namespace KB.Code
 
                     OnWindowSelect(new WindowSelect_EventArgs(LastWindow));
 
+                    LastWindow = null;
                 }
             }
 
@@ -96,7 +97,7 @@ namespace KB.Code
     {
         private WindowInfo _info;
 
-        public WindowInfo info
+        public WindowInfo Info
         {
             get { return _info; }
         }

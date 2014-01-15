@@ -14,9 +14,6 @@ namespace KB.Code
         [return: MarshalAs(UnmanagedType.Bool)]
         public static extern bool GetWindowRect(IntPtr handle, out RECT Rect);
 
-        [DllImport("user32.dll", CharSet = CharSet.Auto)]
-        public static extern int GetClassName(IntPtr handle, StringBuilder ClassName, int MaxCount);
-
         [DllImport("user32.dll")]
         public static extern int SendMessage(IntPtr handle, int msg, int Param1, int Param2);
 
@@ -24,7 +21,6 @@ namespace KB.Code
         public static extern int SendMessage(IntPtr handle, int msg, int Param, System.Text.StringBuilder text);
 
         public IntPtr Handle;
-        public string ClassName;
         public string Text;
         public Rectangle Rect;
 
@@ -41,16 +37,8 @@ namespace KB.Code
         public WindowInfo(IntPtr handle)
         {
             Handle = handle;
-            ClassName = GetWindowClassName(Handle);
             Text = GetWindowText(Handle);
             Rect = GetWindowRectangle(Handle);
-        }
-
-        private static string GetWindowClassName(IntPtr handle)
-        {
-            StringBuilder buffer = new StringBuilder(128);
-            GetClassName(handle, buffer, buffer.Capacity);
-            return buffer.ToString();
         }
 
         private static string GetWindowText(IntPtr handle)
@@ -75,6 +63,11 @@ namespace KB.Code
                 return ((WindowInfo)obj).Handle == Handle;
             else
                 return base.Equals(obj);
+        }
+
+        public override string ToString()
+        {
+            return string.Format("{0} - {1}", Handle,Text);
         }
     }
 }

@@ -13,6 +13,7 @@ namespace KB.Code
         public Color WindowOutlineColor { get; set; }
         public FrameStyle WindowOutlineFrameStyle { get; set; }
         public event EventHandler<WindowSelect_EventArgs> WindowSelect;
+        public event EventHandler<WindowSelect_EventArgs> WindowOver;
         
         private WindowInfo LastWindow = null;
 
@@ -39,13 +40,15 @@ namespace KB.Code
 
                 IntPtr childWindow = WindowFromPoint(pt);
                 WindowInfo CurWindow = new WindowInfo(GetAncestor(childWindow, GA_ROOT));
-                Console.WriteLine("test" + i++);
 
-                if (this.LastWindow == null)
+                if(CurWindow != LastWindow)
+                    OnWindowOver(new WindowSelect_EventArgs(CurWindow));
+
+                if (LastWindow == null)
                 {
                     ControlPaint.DrawReversibleFrame(CurWindow.Rect, WindowOutlineColor, WindowOutlineFrameStyle);
                 }
-                else if (CurWindow.Handle != LastWindow.Handle)
+                else if (CurWindow != LastWindow)
                 {
                     ControlPaint.DrawReversibleFrame(LastWindow.Rect, WindowOutlineColor, WindowOutlineFrameStyle);
                     ControlPaint.DrawReversibleFrame(CurWindow.Rect, WindowOutlineColor, WindowOutlineFrameStyle);
@@ -79,6 +82,12 @@ namespace KB.Code
         {
             if (WindowSelect != null)
                 WindowSelect(this, e);
+        }
+
+        protected void OnWindowOver(WindowSelect_EventArgs e)
+        {
+            if (WindowOver != null)
+                WindowOver(this, e);
         }
     }
 

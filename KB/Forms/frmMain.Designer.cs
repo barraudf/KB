@@ -50,6 +50,7 @@
             this.windowSelector1.TabStop = false;
             this.windowSelector1.WindowOutlineColor = System.Drawing.Color.FromArgb(((int)(((byte)(128)))), ((int)(((byte)(255)))), ((int)(((byte)(128)))));
             this.windowSelector1.WindowOutlineFrameStyle = System.Windows.Forms.FrameStyle.Thick;
+            this.windowSelector1.WindowOver += new System.EventHandler<KB.Code.WindowSelect_EventArgs>(this.windowSelector1_WindowOver);
             // 
             // frmMain
             // 

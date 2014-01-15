@@ -37,5 +37,9 @@ namespace KB.Forms
                 Utils.ShowError(ex, this);
             }
         }
+
+        private void windowSelector1_WindowOver(object sender, WindowSelect_EventArgs e)
+        {
+        }
     }
 }

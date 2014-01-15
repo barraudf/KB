@@ -66,5 +66,15 @@ namespace KB.Code
             GetWindowRect(handle, out rect);
             return new Rectangle(rect.Left, rect.Top, (rect.Right - rect.Left) + 1, (rect.Bottom - rect.Top) + 1);
         }
+
+        public override bool Equals(object obj)
+        {
+            if (obj == null)
+                return false;
+            else if (obj is WindowInfo)
+                return ((WindowInfo)obj).Handle == Handle;
+            else
+                return base.Equals(obj);
+        }
     }
 }

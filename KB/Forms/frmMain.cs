@@ -27,6 +27,10 @@ namespace KB.Forms
         {
             try
             {
+                using (frmConfig frm = new frmConfig())
+                {
+                    frm.ShowDialog(this);
+                }
             }
             catch (Exception ex)
             {

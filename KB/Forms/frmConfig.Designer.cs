@@ -31,14 +31,18 @@
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(frmConfig));
             this.chkActivateOnStart = new System.Windows.Forms.CheckBox();
             this.chkAutoDetectOnStart = new System.Windows.Forms.CheckBox();
-            this.btnCancel = new System.Windows.Forms.Button();
-            this.btnOK = new System.Windows.Forms.Button();
             this.lstIgnoredKeys = new System.Windows.Forms.ListBox();
-            this.cboLanguage = new System.Windows.Forms.ComboBox();
+            this.ddlLanguage = new System.Windows.Forms.ComboBox();
             this.txtAutodectName = new System.Windows.Forms.TextBox();
             this.lblIgnoredKeys = new System.Windows.Forms.Label();
             this.lblAutoDetectName = new System.Windows.Forms.Label();
             this.lblLanguage = new System.Windows.Forms.Label();
+            this.pbRemove = new System.Windows.Forms.PictureBox();
+            this.pbAdd = new System.Windows.Forms.PictureBox();
+            this.btnCancel = new System.Windows.Forms.Button();
+            this.btnOK = new System.Windows.Forms.Button();
+            ((System.ComponentModel.ISupportInitialize)(this.pbRemove)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.pbAdd)).BeginInit();
             this.SuspendLayout();
             // 
             // chkActivateOnStart
@@ -55,33 +59,20 @@
             this.chkAutoDetectOnStart.Tag = "";
             this.chkAutoDetectOnStart.UseVisualStyleBackColor = true;
             // 
-            // btnCancel
-            // 
-            resources.ApplyResources(this.btnCancel, "btnCancel");
-            this.btnCancel.Name = "btnCancel";
-            this.btnCancel.Tag = "";
-            this.btnCancel.UseVisualStyleBackColor = true;
-            // 
-            // btnOK
-            // 
-            resources.ApplyResources(this.btnOK, "btnOK");
-            this.btnOK.Name = "btnOK";
-            this.btnOK.Tag = "";
-            this.btnOK.UseVisualStyleBackColor = true;
-            // 
             // lstIgnoredKeys
             // 
-            this.lstIgnoredKeys.FormattingEnabled = true;
             resources.ApplyResources(this.lstIgnoredKeys, "lstIgnoredKeys");
+            this.lstIgnoredKeys.FormattingEnabled = true;
             this.lstIgnoredKeys.Name = "lstIgnoredKeys";
             // 
-            // cboLanguage
+            // ddlLanguage
             // 
-            this.cboLanguage.Items.AddRange(new object[] {
-            resources.GetString("cboLanguage.Items"),
-            resources.GetString("cboLanguage.Items1")});
-            resources.ApplyResources(this.cboLanguage, "cboLanguage");
-            this.cboLanguage.Name = "cboLanguage";
+            resources.ApplyResources(this.ddlLanguage, "ddlLanguage");
+            this.ddlLanguage.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.ddlLanguage.Items.AddRange(new object[] {
+            resources.GetString("ddlLanguage.Items"),
+            resources.GetString("ddlLanguage.Items1")});
+            this.ddlLanguage.Name = "ddlLanguage";
             // 
             // txtAutodectName
             // 
@@ -106,16 +97,52 @@
             this.lblLanguage.Name = "lblLanguage";
             this.lblLanguage.Tag = "";
             // 
+            // pbRemove
+            // 
+            resources.ApplyResources(this.pbRemove, "pbRemove");
+            this.pbRemove.Image = global::KB.Properties.Resources.delete;
+            this.pbRemove.Name = "pbRemove";
+            this.pbRemove.TabStop = false;
+            this.pbRemove.Click += new System.EventHandler(this.pbRemove_Click);
+            // 
+            // pbAdd
+            // 
+            resources.ApplyResources(this.pbAdd, "pbAdd");
+            this.pbAdd.Image = global::KB.Properties.Resources.add;
+            this.pbAdd.Name = "pbAdd";
+            this.pbAdd.TabStop = false;
+            this.pbAdd.Click += new System.EventHandler(this.pbAdd_Click);
+            // 
+            // btnCancel
+            // 
+            resources.ApplyResources(this.btnCancel, "btnCancel");
+            this.btnCancel.Image = global::KB.Properties.Resources.cancel;
+            this.btnCancel.Name = "btnCancel";
+            this.btnCancel.Tag = "";
+            this.btnCancel.UseVisualStyleBackColor = true;
+            this.btnCancel.Click += new System.EventHandler(this.btnCancel_Click);
+            // 
+            // btnOK
+            // 
+            resources.ApplyResources(this.btnOK, "btnOK");
+            this.btnOK.Image = global::KB.Properties.Resources.accept;
+            this.btnOK.Name = "btnOK";
+            this.btnOK.Tag = "";
+            this.btnOK.UseVisualStyleBackColor = true;
+            this.btnOK.Click += new System.EventHandler(this.btnOK_Click);
+            // 
             // frmConfig
             // 
             resources.ApplyResources(this, "$this");
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+            this.Controls.Add(this.pbRemove);
+            this.Controls.Add(this.pbAdd);
             this.Controls.Add(this.chkActivateOnStart);
             this.Controls.Add(this.chkAutoDetectOnStart);
             this.Controls.Add(this.btnCancel);
             this.Controls.Add(this.btnOK);
             this.Controls.Add(this.lstIgnoredKeys);
-            this.Controls.Add(this.cboLanguage);
+            this.Controls.Add(this.ddlLanguage);
             this.Controls.Add(this.txtAutodectName);
             this.Controls.Add(this.lblIgnoredKeys);
             this.Controls.Add(this.lblAutoDetectName);
@@ -124,6 +151,8 @@
             this.KeyPreview = true;
             this.Name = "frmConfig";
             this.KeyDown += new System.Windows.Forms.KeyEventHandler(this.frmConfig_KeyDown);
+            ((System.ComponentModel.ISupportInitialize)(this.pbRemove)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.pbAdd)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -136,10 +165,12 @@
         private System.Windows.Forms.Button btnCancel;
         private System.Windows.Forms.Button btnOK;
         private System.Windows.Forms.ListBox lstIgnoredKeys;
-        private System.Windows.Forms.ComboBox cboLanguage;
+        private System.Windows.Forms.ComboBox ddlLanguage;
         private System.Windows.Forms.TextBox txtAutodectName;
         private System.Windows.Forms.Label lblIgnoredKeys;
         private System.Windows.Forms.Label lblAutoDetectName;
         private System.Windows.Forms.Label lblLanguage;
+        private System.Windows.Forms.PictureBox pbRemove;
+        private System.Windows.Forms.PictureBox pbAdd;
     }
 }

@@ -9,7 +9,7 @@ namespace KB.Forms
 {
     public partial class frmConfig : Form
     {
-        public static const string[] SUPPORTED_LANGUAGES = new string[] { "en", "fr" };
+        public static readonly string[] SUPPORTED_LANGUAGES = new string[] { "en", "fr" };
         private List<int> _IgnoredKeys = null;
         private string _OldTitle = null;
 

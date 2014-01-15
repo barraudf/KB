@@ -55,6 +55,13 @@
     <Compile Include="Code\Config.cs" />
     <Compile Include="Code\KbdListener.cs" />
     <Compile Include="Code\Utils.cs" />
+    <Compile Include="Code\WindowInfo.cs" />
+    <Compile Include="Code\WindowSelector.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Code\WindowSelector.Designer.cs">
+      <DependentUpon>WindowSelector.cs</DependentUpon>
+    </Compile>
     <Compile Include="Forms\frmConfig.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -126,6 +133,9 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="Resources\delete.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\application_add.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

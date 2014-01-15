@@ -83,8 +83,8 @@ namespace KB.Forms
             try
             {
                 ddlLanguage.Items.Clear();
-                ddlLanguage.Items.Add(new CultureInfo("en-GB"));
-                ddlLanguage.Items.Add(new CultureInfo("fr-FR"));
+                ddlLanguage.Items.Add(new CultureInfo("en"));
+                ddlLanguage.Items.Add(new CultureInfo("fr"));
             }
             catch
             {
@@ -143,7 +143,6 @@ namespace KB.Forms
 
         private void pbAdd_Click(object sender, EventArgs e)
         {
-            
             Enabled = false;
             _OldTitle = Text;
             Text = "Press a key";

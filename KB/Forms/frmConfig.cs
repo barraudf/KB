@@ -9,6 +9,7 @@ namespace KB.Forms
 {
     public partial class frmConfig : Form
     {
+        public static const string[] SUPPORTED_LANGUAGES = new string[] { "en", "fr" };
         private List<int> _IgnoredKeys = null;
         private string _OldTitle = null;
 
@@ -83,8 +84,8 @@ namespace KB.Forms
             try
             {
                 ddlLanguage.Items.Clear();
-                ddlLanguage.Items.Add(new CultureInfo("en"));
-                ddlLanguage.Items.Add(new CultureInfo("fr"));
+                foreach(string lang in SUPPORTED_LANGUAGES)
+                    ddlLanguage.Items.Add(new CultureInfo(lang));
             }
             catch
             {
@@ -145,7 +146,7 @@ namespace KB.Forms
         {
             Enabled = false;
             _OldTitle = Text;
-            Text = "Press a key";
+            Text = Utils.Localize("PressAKey");
         }
     }
 }

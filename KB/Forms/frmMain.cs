@@ -4,6 +4,7 @@ using System.Windows.Forms;
 using System.Diagnostics;
 using System.Runtime.InteropServices;
 using KB.Code;
+using System.Threading.Tasks;
 
 namespace KB.Forms
 {
@@ -22,7 +23,12 @@ namespace KB.Forms
         #endregion Main
 
         protected List<WindowInfo> _Windows = new List<WindowInfo>();
-        protected bool _Active = false;
+        protected SequenceRecorder _Recorder = new SequenceRecorder();
+
+        public bool Active
+        {
+            get { return chkActive.Checked; }
+        }
 
         [DllImport("user32.dll")]
         static extern IntPtr GetForegroundWindow();
@@ -30,7 +36,9 @@ namespace KB.Forms
         public frmMain()
         {
             InitializeComponent();
+            KeyboardListener.s_KeyEventHandler += new EventHandler(KeyboardListener_s_KeyEventHandler);
             RefreshWindows();
+            UpdateSequenceButtons();
         }
 
         private void btnSettings_Click(object sender, EventArgs e)
@@ -90,24 +98,12 @@ namespace KB.Forms
             }
         }
 
-        private void pbReset_Click(object sender, EventArgs e)
-        {
-            try
-            {
-                _Windows.Clear();
-                RefreshWindows();
-            }
-            catch(Exception ex)
-            {
-                Utils.ShowError(ex);
-            }
-        }
-
         private void KeyboardListener_s_KeyEventHandler(object sender, EventArgs e)
         {
             try
             {
                 KeyboardListener.UniversalKeyEventArgs eventArgs = (KeyboardListener.UniversalKeyEventArgs)e;
+                KeyboardEventInfo kei = new KeyboardEventInfo(eventArgs);
 
                 if (Config.Current.IgnoredKeys.Contains((int)eventArgs.m_Key))
                     return;
@@ -116,12 +112,18 @@ namespace KB.Forms
                 
                 if (_Windows.Contains(curWindow) == true)
                 {
-                    KeyboardEventInfo kei = new KeyboardEventInfo(eventArgs);
-
-                    foreach (WindowInfo i in _Windows)
+                    if (Active == true)
                     {
-                        if (i.Equals(curWindow) == false)
-                            kei.PostMessage(i.Handle);
+                        foreach (WindowInfo i in _Windows)
+                        {
+                            if (i.Equals(curWindow) == false)
+                                kei.PostMessage(i.Handle);
+                        }
+                    }
+
+                    if (_Recorder != null && _Recorder.Recording == true)
+                    {
+                        _Recorder.Add(kei);
                     }
                 }
             }
@@ -132,24 +134,91 @@ namespace KB.Forms
 
         }
 
-        private void pbActive_Click(object sender, EventArgs e)
+        private async void btnPlaySequence_Click(object sender, EventArgs e)
         {
             try
             {
-                if (_Active == true)
+                if (_Recorder.Recording == true || _Recorder.Playing == true)
+                    return;
+
+                Task play = _Recorder.Play(_Windows.ToArray());
+
+                UpdateSequenceButtons();
+
+                await play;
+
+                UpdateSequenceButtons();
+            }
+            catch (Exception ex)
+            {
+                Utils.ShowError(ex);
+            }
+        }
+
+        private void btnRecordSequence_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                if (_Recorder.Recording == true)
+                    _Recorder.StopRecording();
+                else
+                    _Recorder.StartRecording();
+
+                UpdateSequenceButtons();
+            }
+            catch (Exception ex)
+            {
+                Utils.ShowError(ex);
+            }
+        }
+
+        private void UpdateSequenceButtons()
+        {
+            try
+            {
+                btnRecordSequence.Enabled = btnPlaySequence.Enabled = !_Recorder.Playing;
+
+                if (_Recorder.Recording == true)
                 {
-                    KeyboardListener.s_KeyEventHandler -= new EventHandler(KeyboardListener_s_KeyEventHandler);
-                    _Active = false;
-                    pbActive.Image = KB.Properties.Resources.stop;
+                    btnPlaySequence.Enabled = false;
+                    btnRecordSequence.Image = KB.Properties.Resources.control_stop_blue;
+                    btnRecordSequence.Text = Utils.Localize("Stop");
                 }
                 else
                 {
-                    KeyboardListener.s_KeyEventHandler += new EventHandler(KeyboardListener_s_KeyEventHandler);
-                    _Active = true;
-                    pbActive.Image = KB.Properties.Resources.start;
+                    btnRecordSequence.Image = KB.Properties.Resources.control_record_blue;
+                    btnRecordSequence.Text = Utils.Localize("Record");
                 }
             }
-            catch(Exception ex)
+            catch
+            {
+                throw;
+            }
+        }
+
+        private void btnReset_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                _Windows.Clear();
+                RefreshWindows();
+            }
+            catch (Exception ex)
+            {
+                Utils.ShowError(ex);
+            }
+        }
+
+        private void chkActive_CheckedChanged(object sender, EventArgs e)
+        {
+            try
+            {
+                if (Active == false)
+                    chkActive.Image = KB.Properties.Resources.stop;
+                else
+                    chkActive.Image = KB.Properties.Resources.start;
+            }
+            catch (Exception ex)
             {
                 Utils.ShowError(ex);
             }

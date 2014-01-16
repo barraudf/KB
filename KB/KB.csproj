@@ -55,6 +55,7 @@
     <Compile Include="Code\Config.cs" />
     <Compile Include="Code\KbdListener.cs" />
     <Compile Include="Code\KeyboardEventInfo.cs" />
+    <Compile Include="Code\SequenceRecorder.cs" />
     <Compile Include="Code\Utils.cs" />
     <Compile Include="Code\WindowInfo.cs" />
     <Compile Include="Code\WindowSelector.cs">
@@ -149,6 +150,15 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="Resources\cog.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\control_play_blue.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\control_stop_blue.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\control_record_blue.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

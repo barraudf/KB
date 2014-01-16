@@ -120,4 +120,10 @@
   <data name="PressAKey" xml:space="preserve">
     <value>Press a key</value>
   </data>
+  <data name="Record" xml:space="preserve">
+    <value>Record</value>
+  </data>
+  <data name="Stop" xml:space="preserve">
+    <value>Stop</value>
+  </data>
 </root>

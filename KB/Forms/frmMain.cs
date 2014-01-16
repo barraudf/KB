@@ -27,9 +27,6 @@ namespace KB.Forms
         [DllImport("user32.dll")]
         static extern IntPtr GetForegroundWindow();
 
-        [DllImport("user32.dll", EntryPoint = "PostMessage")]
-        public static extern int PostMessage(IntPtr hwnd, uint wMsg, int wParam, int lParam);
-
         public frmMain()
         {
             InitializeComponent();
@@ -115,32 +112,16 @@ namespace KB.Forms
                 if (Config.Current.IgnoredKeys.Contains((int)eventArgs.m_Key))
                     return;
 
-                IntPtr curWindowPtr = GetForegroundWindow();
-                WindowInfo curWindow = new WindowInfo(curWindowPtr);
+                WindowInfo curWindow = new WindowInfo(GetForegroundWindow());
+                
                 if (_Windows.Contains(curWindow) == true)
                 {
-                    uint lParam;
-                    switch (eventArgs.m_Msg)
-                    {
-                        /*WM_KEYDOWN*/
-                        case 0x0100: lParam = 0x00000001; break;
-                        /*WM_KEYUP*/
-                        case 0x0101: lParam = 0xC0000001; break;
-                        /*WM_CHAR*/
-                        case 0x0102: lParam = 0xC0000001; break;
-                        /*WM_DEADCHAR*/
-                        case 0x0103: lParam = 0xC0000001; break;
-                        /*WM_SYSKEYDOWN*/
-                        case 0x0104: lParam = 0x00000001; break;
-                        /*WM_SYSKEYUP*/
-                        case 0x0105: lParam = 0xC0000001; break;
-                        default: lParam = 0x00000001; break;
-                    }
+                    KeyboardEventInfo kei = new KeyboardEventInfo(eventArgs);
 
                     foreach (WindowInfo i in _Windows)
                     {
-                        if(i.Equals(curWindow) == false)
-                            PostMessage(i.Handle, eventArgs.m_Msg, eventArgs.m_Key, (int)lParam);
+                        if (i.Equals(curWindow) == false)
+                            kei.PostMessage(i.Handle);
                     }
                 }
             }

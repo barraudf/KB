@@ -54,6 +54,7 @@
   <ItemGroup>
     <Compile Include="Code\Config.cs" />
     <Compile Include="Code\KbdListener.cs" />
+    <Compile Include="Code\KeyboardEventInfo.cs" />
     <Compile Include="Code\Utils.cs" />
     <Compile Include="Code\WindowInfo.cs" />
     <Compile Include="Code\WindowSelector.cs">

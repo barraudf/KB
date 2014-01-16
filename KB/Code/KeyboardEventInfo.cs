@@ -38,5 +38,17 @@ namespace KB.Code
         {
             PostMessage(handle, m_Msg, m_Key, (int)lParam);
         }
+
+        public void Replay(IntPtr handle)
+        {
+            if (m_Key == (int)WindowsInput.VirtualKeyCode.SHIFT)
+            {
+                if (m_Msg == 0x0100)
+                    WindowsInput.InputSimulator.SimulateKeyDown(WindowsInput.VirtualKeyCode.SHIFT);
+                else if(m_Msg == 0x0101)
+                    WindowsInput.InputSimulator.SimulateKeyUp(WindowsInput.VirtualKeyCode.SHIFT);
+            }
+            PostMessage(handle);
+        }
     }
 }

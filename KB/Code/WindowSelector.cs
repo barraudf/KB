@@ -23,7 +23,6 @@ namespace KB.Code
         public static extern IntPtr GetAncestor(IntPtr hWnd, int flags);
 
         public const int GA_ROOT = 3;
-        static int i = 0;
 
 
         public WindowSelector()

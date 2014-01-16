@@ -39,6 +39,12 @@ namespace KB.Forms
             KeyboardListener.s_KeyEventHandler += new EventHandler(KeyboardListener_s_KeyEventHandler);
             RefreshWindows();
             UpdateSequenceButtons();
+
+            if (Config.Current.AutoDetect)
+                AutoDetect();
+
+            if (Config.Current.AutoStart)
+                chkActive.Checked = true;
         }
 
         private void btnSettings_Click(object sender, EventArgs e)
@@ -83,8 +89,20 @@ namespace KB.Forms
         {
             try
             {
+                AutoDetect();
+            }
+            catch (Exception ex)
+            {
+                Utils.ShowError(ex);
+            }
+        }
+
+        private void AutoDetect()
+        {
+            try
+            {
                 _Windows = new List<WindowInfo>();
-                
+
                 Process[] ps = Process.GetProcessesByName(Config.Current.AutoDetectExeName);
                 foreach (Process p in ps)
                 {
@@ -92,9 +110,9 @@ namespace KB.Forms
                 }
                 RefreshWindows();
             }
-            catch (Exception ex)
+            catch
             {
-                Utils.ShowError(ex);
+                throw;
             }
         }
 
@@ -114,6 +132,7 @@ namespace KB.Forms
                 {
                     if (Active == true)
                     {
+                        //WriteLog(string.Format("SEND : {0} - {1:X} - {2:X}", ((Keys) kei.m_Key).ToString(), kei.m_Msg, kei.lParam));
                         foreach (WindowInfo i in _Windows)
                         {
                             if (i.Equals(curWindow) == false)
@@ -123,6 +142,7 @@ namespace KB.Forms
 
                     if (_Recorder != null && _Recorder.Recording == true)
                     {
+                        //WriteLog(string.Format("RECORD : {0} - {1:X} - {2:X}", ((Keys)kei.m_Key).ToString(), kei.m_Msg, kei.lParam));
                         _Recorder.Add(kei);
                     }
                 }
@@ -132,6 +152,11 @@ namespace KB.Forms
                 Utils.ShowError(ex);
             }
 
+        }
+
+        public static void WriteLog(string message)
+        {
+            System.IO.File.AppendAllText("Debug.log", message + Environment.NewLine);
         }
 
         private async void btnPlaySequence_Click(object sender, EventArgs e)

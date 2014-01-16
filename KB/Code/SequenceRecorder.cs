@@ -86,7 +86,8 @@ namespace KB.Code
 
                     foreach (WindowInfo i in windows)
                     {
-                        kvp.Value.PostMessage(i.Handle);
+                        kvp.Value.Replay(i.Handle);
+                        //KB.Forms.frmMain.WriteLog(string.Format("REPLAY : {0} - {1:X} - {2:X}", ((System.Windows.Forms.Keys)kvp.Value.m_Key).ToString(), kvp.Value.m_Msg, kvp.Value.lParam));
                     }
                 }
 
